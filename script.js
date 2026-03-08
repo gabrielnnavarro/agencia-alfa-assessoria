@@ -11,8 +11,9 @@ const INSTALL_HELP_CONTEXTS = {
 // Todo o conteúdo traduzível da interface fica centralizado aqui para manter PT e EN alinhados.
 const translations = {
   pt: {
-    pageTitle: "ALFA | Desenvolvimento Sob Medida",
-    brandTag: "Software studio",
+    pageTitle: "ALFA Engenharia de Software | Desenvolvimento Sob Medida",
+    brandName: "ALFA Engenharia de Software",
+    brandTag: "Soluções digitais sob medida",
     themeButtonLight: "Modo claro",
     themeButtonDark: "Modo escuro",
     eyebrow: "Desenvolvimento sem limite de stack",
@@ -110,8 +111,9 @@ const translations = {
     switchLanguageAria: "Switch language to English"
   },
   en: {
-    pageTitle: "ALFA | Custom Software Development",
-    brandTag: "Software studio",
+    pageTitle: "ALFA Engenharia de Software | Custom Software Development",
+    brandName: "ALFA Engenharia de Software",
+    brandTag: "Tailored digital solutions",
     themeButtonLight: "Light mode",
     themeButtonDark: "Dark mode",
     eyebrow: "Development without stack limits",
