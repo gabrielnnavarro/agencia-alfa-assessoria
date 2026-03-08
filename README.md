@@ -1,57 +1,47 @@
-# Agência ALFA
+# ALFA Engenharia de Software
 
-Site institucional da Agência ALFA criado para apresentação de serviços e captação de clientes.
+Site institucional da ALFA Engenharia de Software, criado para apresentar serviços, gerar contato comercial e concentrar pedidos de orçamento pelo WhatsApp.
 
-O projeto foi desenvolvido como uma landing page moderna, responsiva e instalável como PWA, permitindo acesso fácil em diferentes dispositivos.
-
-## 🌐 Projeto online
+## Projeto online
 https://agenciaalfaassessoria.netlify.app/
 
-## 📌 Visão geral
-O site apresenta a empresa, seus serviços e canais de contato, com foco em conversão comercial e compatibilidade com diferentes navegadores e dispositivos.
+## Visão geral
 
-## 🚀 Recursos
-- Interface bilíngue (Português e Inglês)
-- Tema claro e escuro com persistência local
-- Botões de WhatsApp com mensagem geral e mensagens específicas por serviço
-- Layout responsivo (desktop, tablet e mobile)
-- Progressive Web App (PWA) instalável
-- Manifesto, service worker e ícones do aplicativo
-- Suporte a instalação com fallback para iOS e navegadores sem suporte
+O site foi desenvolvido como uma página estática, bilíngue e responsiva, com foco em clareza comercial, boa leitura em qualquer dispositivo e navegação simples.
 
-## 🛠 Tecnologias utilizadas
+## Recursos
+
+- Interface em português e inglês
+- Tema claro e escuro com preferência salva no navegador
+- Botões de WhatsApp com mensagem geral e mensagens por serviço
+- Briefing rápido que monta uma mensagem estruturada
+- Layout responsivo para desktop, tablet e celular
+- Identidade visual própria da marca ALFA
+
+## Tecnologias utilizadas
+
 - HTML
 - CSS
 - JavaScript
-- Progressive Web App (PWA)
-- Netlify (deploy)
 
-## 📂 Estrutura do projeto
+## Estrutura do projeto
 
-index.html  
-Estrutura principal do site.
+`index.html`  
+Estrutura principal, conteúdo base e marcação das seções.
 
-styles.css  
-Layout, responsividade, temas e componentes visuais.
+`styles.css`  
+Sistema visual, layout, responsividade, temas e componentes.
 
-script.js  
-Controle de idioma, tema, serviços, links do WhatsApp e instalação do aplicativo.
+`script.js`  
+Controle de idioma, tema, renderização dinâmica dos blocos e links do WhatsApp.
 
-manifest.webmanifest  
-Configuração do Progressive Web App.
+`icons/icon.svg`  
+Logotipo principal usado no site e no favicon.
 
-service-worker.js  
-Cache offline e estratégia de carregamento.
+## Execução local
 
-serve-local.ps1  
-Servidor local simples para testes via HTTP.
+Como o projeto é totalmente estático, basta abrir o arquivo `index.html` no navegador.
 
-icons/  
-Ícones utilizados pelo PWA e atalhos do dispositivo.
+## Publicação
 
-## ▶ Execução local
-
-Para testar o projeto localmente com recursos de PWA ativos:
-
-```powershell
-.\serve-local.ps1
+O deploy está configurado pela Netlify a partir da branch `main` do repositório.

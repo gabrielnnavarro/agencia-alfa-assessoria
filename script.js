@@ -37,7 +37,7 @@ const translations = {
     featuredEyebrow: "Soluções",
     featuredTitle: "Entregas completas para diferentes tipos de operação",
     featuredText:
-      "Empresas de desenvolvimento mais completas costumam destacar projetos, arquitetura e resultados esperados. Aqui mostramos esse mesmo nível de clareza.",
+      "Estruturamos soluções completas para operação, produto, vendas, automação e escala, sempre com foco em clareza técnica e resultado de negócio.",
     serviceButton: "Pedir orçamento",
     processEyebrow: "Processo",
     processTitle: "Um fluxo simples para tirar a ideia do papel",
@@ -64,7 +64,7 @@ const translations = {
     stackEyebrow: "Stack",
     stackTitle: "Tecnologias e frentes que conseguimos conectar em um projeto",
     stackText:
-      "Sites completos de software costumam mostrar stack, arquitetura e ecossistema técnico. Organizamos isso em grupos para facilitar a leitura.",
+      "Organizamos as principais frentes técnicas em grupos para facilitar a leitura e mostrar como diferentes tecnologias podem conviver no mesmo projeto.",
     aboutEyebrow: "ALFA",
     aboutTitle: "Tecnologia sob medida para operações reais",
     aboutText:
@@ -81,7 +81,7 @@ const translations = {
     faqEyebrow: "FAQ",
     faqTitle: "Perguntas frequentes antes de pedir um orçamento",
     faqText:
-      "As empresas mais completas normalmente antecipam dúvidas comerciais e técnicas. Esta seção foi pensada com esse objetivo.",
+      "Respondemos aqui as dúvidas mais comuns sobre escopo, atendimento, suporte e formato de contratação.",
     briefEyebrow: "Briefing rápido",
     briefTitle: "Monte um resumo do projeto e envie pelo WhatsApp",
     briefText:
@@ -157,7 +157,7 @@ const translations = {
     featuredEyebrow: "Solutions",
     featuredTitle: "Complete delivery formats for different kinds of operations",
     featuredText:
-      "The most complete development companies usually highlight projects, architecture, and expected outcomes. We bring that same level of clarity here.",
+      "We structure complete solutions for operations, products, sales, automation, and scale, with focus on technical clarity and business results.",
     serviceButton: "Request quote",
     processEyebrow: "Process",
     processTitle: "A simple flow to turn an idea into a shipped product",
@@ -184,7 +184,7 @@ const translations = {
     stackEyebrow: "Stack",
     stackTitle: "Technologies and workstreams we can connect within one project",
     stackText:
-      "Complete software websites usually show stack, architecture, and the technical ecosystem. We organize that into groups for easier scanning.",
+      "We organize the main technical areas into groups so it is easier to scan how different technologies connect inside the same project.",
     aboutEyebrow: "ALFA",
     aboutTitle: "Tailored technology for real operations",
     aboutText:
@@ -201,7 +201,7 @@ const translations = {
     faqEyebrow: "FAQ",
     faqTitle: "Frequently asked questions before requesting a quote",
     faqText:
-      "The most complete companies usually anticipate commercial and technical questions. This section was designed for that.",
+      "Here we answer the most common questions about scope, support, communication, and engagement format.",
     briefEyebrow: "Quick brief",
     briefTitle: "Build a project summary and send it on WhatsApp",
     briefText:
@@ -358,7 +358,7 @@ const services = [
   }
 ];
 
-// Blocos adicionais inspirados em funcionalidades comuns de sites de empresas de software.
+// Blocos de soluções em destaque para complementar a oferta principal.
 const featuredSolutions = [
   {
     badge: { pt: "Web & SaaS", en: "Web & SaaS" },
@@ -443,6 +443,7 @@ const featuredSolutions = [
   }
 ];
 
+// Modelos de contratação para diferentes cenários de execução.
 const deliveryModels = [
   {
     kicker: { pt: "Escopo fechado", en: "Fixed scope" },
@@ -506,6 +507,7 @@ const deliveryModels = [
   }
 ];
 
+// Segmentos e contextos de negócio atendidos com mais frequência.
 const industries = [
   {
     kicker: { pt: "Serviços", en: "Services" },
@@ -581,6 +583,7 @@ const industries = [
   }
 ];
 
+// Agrupamento das frentes técnicas exibidas na seção de stack.
 const stackGroups = [
   {
     label: { pt: "Front-end", en: "Front-end" },
@@ -620,6 +623,7 @@ const stackGroups = [
   }
 ];
 
+// Perguntas frequentes usadas no accordion comercial.
 const faqs = [
   {
     question: {
@@ -627,8 +631,8 @@ const faqs = [
       en: "Do you work with any language and stack?"
     },
     answer: {
-      pt: "Sim. O site já comunica essa proposta porque a empresa foi posicionada para desenvolvimento sob medida. A stack é escolhida conforme objetivo, contexto técnico, orçamento e necessidade de evolução.",
-      en: "Yes. The site is already positioned that way because the company focuses on custom development. The stack is chosen according to goals, technical context, budget, and long-term evolution needs."
+      pt: "Sim. Trabalhamos com desenvolvimento sob medida e escolhemos a stack conforme objetivo, contexto técnico, orçamento e necessidade de evolução do projeto.",
+      en: "Yes. We work with custom development and choose the stack according to the project's goals, technical context, budget, and long-term evolution needs."
     }
   },
   {
@@ -683,6 +687,7 @@ const faqs = [
   }
 ];
 
+// Faixas de investimento disponíveis no briefing rápido.
 const budgetOptions = [
   { value: "up-to-5k", label: { pt: "Até R$ 5 mil", en: "Up to BRL 5k" } },
   { value: "5k-15k", label: { pt: "De R$ 5 mil a R$ 15 mil", en: "BRL 5k to BRL 15k" } },
@@ -691,6 +696,7 @@ const budgetOptions = [
   { value: "60k-plus", label: { pt: "Acima de R$ 60 mil", en: "Above BRL 60k" } }
 ];
 
+// Prazos usados no formulário para qualificar o lead.
 const timelineOptions = [
   { value: "urgent", label: { pt: "Urgente (até 2 semanas)", en: "Urgent (up to 2 weeks)" } },
   { value: "short", label: { pt: "Curto prazo (até 30 dias)", en: "Short term (up to 30 days)" } },
@@ -706,7 +712,7 @@ const state = {
 };
 
 
-// Cache de referências do DOM usadas com frequência.
+// Referências do DOM usadas em renderização, idioma, tema e ações comerciais.
 const servicesGrid = document.getElementById("services-grid");
 const featuredGrid = document.getElementById("featured-grid");
 const deliveryGrid = document.getElementById("delivery-grid");
@@ -744,7 +750,7 @@ function getServiceQuoteMessage(language, serviceTitle) {
   return translations[language].serviceQuoteMessage.replace("{service}", serviceTitle);
 }
 
-// Alterna a visibilidade do botao flutuante quando o CTA principal entra na tela.
+// Alterna a visibilidade do botão flutuante quando o CTA principal entra na tela.
 function updateFloatingWhatsAppVisibility(shouldHide) {
   if (!floatingWhatsAppButton) {
     return;
@@ -785,7 +791,7 @@ function renderServices() {
     .join("");
 }
 
-// Renderiza blocos de solução inspirados em áreas normalmente destacadas por empresas do mesmo setor.
+// Renderiza os blocos de soluções em destaque.
 function renderFeaturedSolutions() {
   if (!featuredGrid) {
     return;
@@ -1098,7 +1104,7 @@ function registerBriefForm() {
   briefForm.addEventListener("submit", handleBriefSubmit);
 }
 
-// Esconde o botao flutuante quando a secao final de orcamento estiver visivel.
+// Esconde o botão flutuante quando a seção final de orçamento estiver visível.
 function registerFloatingWhatsAppBehavior() {
   if (!floatingWhatsAppButton || !ctaSection) {
     return;
