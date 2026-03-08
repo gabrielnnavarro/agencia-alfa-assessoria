@@ -1,12 +1,6 @@
-// Número central do WhatsApp usado por todos os pontos de orçamento.
+﻿// Número central do WhatsApp usado por todos os pontos de orçamento.
 const WHATSAPP_NUMBER = "5511978190028";
 
-// Cenários de fallback suportados pelo modal de ajuda de instalação.
-const INSTALL_HELP_CONTEXTS = {
-  ios: "ios",
-  file: "file",
-  unsupported: "unsupported"
-};
 
 // Todo o conteúdo traduzível da interface fica centralizado aqui para manter PT e EN alinhados.
 const translations = {
@@ -122,34 +116,6 @@ const translations = {
       "Fale pelo WhatsApp em português ou inglês. A mensagem já sai pronta com o contexto correto.",
     ctaButton: "Solicitar orçamento",
     floatingWhatsApp: "WhatsApp",
-    installApp: "Instalar app",
-    installAppShort: "Instalar",
-    installHelpTitle: "Como instalar o app",
-    installHelpIos:
-      "No iPhone ou iPad, a instalação é feita manualmente pelo Safari usando o menu de compartilhamento.",
-    installHelpFile:
-      "Para instalar o app, abra este site por HTTP local em vez de file://. O prompt de instalação não funciona quando o arquivo é aberto direto do disco.",
-    installHelpUnsupported:
-      "Este navegador não exibiu o prompt automático de instalação. Use um navegador compatível ou a opção de instalação do próprio navegador.",
-    installHelpSteps: {
-      ios: [
-        "Abra este site no Safari do iPhone ou iPad.",
-        "Toque em Compartilhar na barra do navegador.",
-        "Escolha Adicionar à Tela de Início.",
-        "Confirme para instalar o app."
-      ],
-      file: [
-        "Na pasta do projeto, execute .\\serve-local.ps1.",
-        "Abra http://127.0.0.1:4173 no navegador.",
-        "Clique novamente em Instalar app para usar o prompt nativo."
-      ],
-      unsupported: [
-        "Abra este site no Chrome ou Edge no desktop ou Android.",
-        "Use o endereço http://127.0.0.1:4173 ou o domínio publicado.",
-        "Se o navegador oferecer instalação pelo menu, use essa opção."
-      ]
-    },
-    installHelpClose: "Fechar",
     quoteMessage:
       "Olá, quero criar um orçamento para um projeto de desenvolvimento com a ALFA.",
     serviceQuoteMessage:
@@ -270,34 +236,6 @@ const translations = {
       "Reach out on WhatsApp in Portuguese or English. The message already opens with the right context.",
     ctaButton: "Request a quote",
     floatingWhatsApp: "WhatsApp",
-    installApp: "Install app",
-    installAppShort: "Install",
-    installHelpTitle: "How to install the app",
-    installHelpIos:
-      "On iPhone or iPad, installation is done manually in Safari using the share menu.",
-    installHelpFile:
-      "To install the app, open this site over local HTTP instead of file://. The install prompt does not work when the file is opened directly from disk.",
-    installHelpUnsupported:
-      "This browser did not show the automatic install prompt. Use a compatible browser or the browser's own install option.",
-    installHelpSteps: {
-      ios: [
-        "Open this site in Safari on your iPhone or iPad.",
-        "Tap Share in the browser bar.",
-        "Choose Add to Home Screen.",
-        "Confirm to install the app."
-      ],
-      file: [
-        "Run .\\serve-local.ps1 in the project folder.",
-        "Open http://127.0.0.1:4173 in your browser.",
-        "Click Install app again to use the native prompt."
-      ],
-      unsupported: [
-        "Open this site in Chrome or Edge on desktop or Android.",
-        "Use http://127.0.0.1:4173 or the published domain.",
-        "If your browser offers installation from its menu, use that option."
-      ]
-    },
-    installHelpClose: "Close",
     quoteMessage:
       "Hello, I would like to create a quote for a software development project with ALFA.",
     serviceQuoteMessage:
@@ -767,13 +705,6 @@ const state = {
   theme: localStorage.getItem("alfa-theme") || "dark"
 };
 
-// Estado de execução usado pelo prompt de instalação e pelo modal de ajuda.
-const installState = {
-  deferredPrompt: null,
-  helpContext: null,
-  installed: false,
-  lastFocusedElement: null
-};
 
 // Cache de referências do DOM usadas com frequência.
 const servicesGrid = document.getElementById("services-grid");
@@ -789,9 +720,6 @@ const footerQuoteButton = document.getElementById("footer-quote-button");
 const floatingWhatsAppButton = document.getElementById("floating-whatsapp-button");
 const ctaSection = document.querySelector(".cta-section");
 const themeColorMeta = document.getElementById("theme-color-meta");
-const installButtonHeader = document.getElementById("install-button-header");
-const installButtonHero = document.getElementById("install-button-hero");
-const installButtons = [installButtonHeader, installButtonHero].filter(Boolean);
 const briefForm = document.getElementById("brief-form");
 const briefNameInput = document.getElementById("brief-name");
 const briefCompanyInput = document.getElementById("brief-company");
@@ -799,37 +727,7 @@ const briefServiceSelect = document.getElementById("brief-service");
 const briefBudgetSelect = document.getElementById("brief-budget");
 const briefTimelineSelect = document.getElementById("brief-timeline");
 const briefSummaryInput = document.getElementById("brief-summary");
-const installHelpPanel = document.getElementById("install-help-panel");
-const installHelpTitle = document.getElementById("install-help-title");
-const installHelpText = document.getElementById("install-help-text");
-const installHelpSteps = document.getElementById("install-help-steps");
-const installHelpCloseButton = document.getElementById("install-help-close-button");
-const installHelpCloseIcon = document.getElementById("install-help-close");
-const installCloseTriggers = Array.from(document.querySelectorAll("[data-install-close]"));
-const displayModeQuery =
-  typeof window.matchMedia === "function"
-    ? window.matchMedia("(display-mode: standalone)")
-    : null;
 
-// Detecta se o site já está rodando como aplicativo instalado.
-function isStandaloneMode() {
-  return Boolean((displayModeQuery && displayModeQuery.matches) || window.navigator.standalone);
-}
-
-// O iPadOS pode se identificar como Mac, então maxTouchPoints também é verificado.
-function isIOSDevice() {
-  return /iPad|iPhone|iPod/.test(window.navigator.userAgent) ||
-    (window.navigator.platform === "MacIntel" && window.navigator.maxTouchPoints > 1);
-}
-
-// As instruções manuais de instalação se aplicam ao Safari no iOS e iPadOS.
-function isIOSSafari() {
-  return (
-    isIOSDevice() &&
-    /Safari/i.test(window.navigator.userAgent) &&
-    !/CriOS|FxiOS|EdgiOS|OPiOS|YaBrowser|DuckDuckGo/i.test(window.navigator.userAgent)
-  );
-}
 
 // Monta o link final do WhatsApp com a mensagem já codificada.
 function buildWhatsAppUrl(message) {
@@ -855,31 +753,6 @@ function updateFloatingWhatsAppVisibility(shouldHide) {
   floatingWhatsAppButton.classList.toggle("is-hidden", shouldHide);
 }
 
-// Retorna o conteúdo localizado do modal para o cenário ativo de ajuda de instalação.
-function getInstallHelpContent(language, context) {
-  const copy = translations[language];
-
-  switch (context) {
-    case INSTALL_HELP_CONTEXTS.ios:
-      return {
-        title: copy.installHelpTitle,
-        text: copy.installHelpIos,
-        steps: copy.installHelpSteps.ios
-      };
-    case INSTALL_HELP_CONTEXTS.file:
-      return {
-        title: copy.installHelpTitle,
-        text: copy.installHelpFile,
-        steps: copy.installHelpSteps.file
-      };
-    default:
-      return {
-        title: copy.installHelpTitle,
-        text: copy.installHelpUnsupported,
-        steps: copy.installHelpSteps.unsupported
-      };
-  }
-}
 
 // Renderiza os cards de serviço sempre que o idioma ativo muda.
 function renderServices() {
@@ -1082,114 +955,6 @@ function renderBriefForm() {
   briefSummaryInput.placeholder = copy.briefSummaryPlaceholder;
 }
 
-// Preenche o modal de ajuda de instalação com o conteúdo localizado correto.
-function renderInstallHelp() {
-  if (!installHelpPanel || !installState.helpContext) {
-    return;
-  }
-
-  const content = getInstallHelpContent(state.language, installState.helpContext);
-  const copy = translations[state.language];
-
-  installHelpTitle.textContent = content.title;
-  installHelpText.textContent = content.text;
-  installHelpSteps.innerHTML = content.steps.map((step) => `<li>${step}</li>`).join("");
-  installHelpCloseButton.textContent = copy.installHelpClose;
-  installHelpCloseIcon.setAttribute("aria-label", copy.installHelpClose);
-}
-
-// Abre o modal e guarda o elemento disparador para restaurar o foco depois.
-function openInstallHelp(context) {
-  if (!installHelpPanel) {
-    return;
-  }
-
-  installState.helpContext = context;
-  installState.lastFocusedElement = document.activeElement;
-  renderInstallHelp();
-  installHelpPanel.hidden = false;
-  installHelpPanel.setAttribute("aria-hidden", "false");
-  document.body.classList.add("modal-open");
-  window.setTimeout(() => {
-    installHelpCloseButton.focus();
-  }, 0);
-}
-
-// Fecha o modal e, opcionalmente, restaura o foco do teclado.
-function closeInstallHelp(restoreFocus = true) {
-  if (!installHelpPanel || installHelpPanel.hidden) {
-    return;
-  }
-
-  installHelpPanel.hidden = true;
-  installHelpPanel.setAttribute("aria-hidden", "true");
-  installState.helpContext = null;
-  document.body.classList.remove("modal-open");
-
-  if (
-    restoreFocus &&
-    installState.lastFocusedElement &&
-    typeof installState.lastFocusedElement.focus === "function"
-  ) {
-    installState.lastFocusedElement.focus();
-  }
-}
-
-// Oculta os botões de instalação quando o site já está rodando como app instalado.
-function updateInstallButtons() {
-  installState.installed = isStandaloneMode();
-
-  if (installState.installed) {
-    closeInstallHelp(false);
-  }
-
-  installButtons.forEach((button) => {
-    button.hidden = installState.installed;
-  });
-}
-
-// Dispara o prompt nativo de instalação do navegador quando disponível.
-async function promptInstall() {
-  if (!installState.deferredPrompt) {
-    return;
-  }
-
-  const promptEvent = installState.deferredPrompt;
-  installState.deferredPrompt = null;
-
-  try {
-    await promptEvent.prompt();
-    await promptEvent.userChoice;
-  } catch (error) {
-    console.error("Install prompt failed:", error);
-  }
-
-  updateInstallButtons();
-}
-
-// Direciona o CTA de instalação para o prompt nativo ou para o modal de fallback adequado.
-async function handleInstallButtonClick() {
-  if (installState.installed) {
-    return;
-  }
-
-  if (installState.deferredPrompt) {
-    await promptInstall();
-    return;
-  }
-
-  if (window.location.protocol === "file:") {
-    openInstallHelp(INSTALL_HELP_CONTEXTS.file);
-    return;
-  }
-
-  if (isIOSSafari()) {
-    openInstallHelp(INSTALL_HELP_CONTEXTS.ios);
-    return;
-  }
-
-  openInstallHelp(INSTALL_HELP_CONTEXTS.unsupported);
-}
 
 // Aplica todos os textos dependentes de idioma, labels e links dinâmicos do WhatsApp.
 function updateTranslatableContent() {
@@ -1228,11 +993,6 @@ function updateTranslatableContent() {
     floatingWhatsAppLabel.textContent = copy.floatingWhatsApp;
   }
 
-  if (installHelpPanel && !installHelpPanel.hidden) {
-    renderInstallHelp();
-  } else if (installHelpCloseIcon) {
-    installHelpCloseIcon.setAttribute("aria-label", copy.installHelpClose);
-  }
 
   renderServices();
   renderFeaturedSolutions();
@@ -1261,18 +1021,34 @@ function applyLanguage() {
   updateTranslatableContent();
 }
 
-// Registra o service worker apenas quando o contexto suporta esse recurso.
-function registerServiceWorker() {
-  if (!("serviceWorker" in navigator) || !/^https?:$/.test(window.location.protocol)) {
+// Remove service workers antigos para garantir que o site funcione apenas como site.
+function unregisterLegacyServiceWorkers() {
+  if (!("serviceWorker" in navigator)) {
     return;
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js").catch((error) => {
-      console.error("Service worker registration failed:", error);
-    });
+    if ("caches" in window) {
+      caches.keys().then((cacheNames) => {
+        cacheNames.forEach((cacheName) => {
+          caches.delete(cacheName);
+        });
+      });
+    }
+
+    navigator.serviceWorker
+      .getRegistrations()
+      .then((registrations) => {
+        registrations.forEach((registration) => {
+          registration.unregister();
+        });
+      })
+      .catch((error) => {
+        console.error("Service worker cleanup failed:", error);
+      });
   });
 }
+
 
 // Monta o briefing estruturado e envia pelo mesmo canal principal de orçamento.
 function handleBriefSubmit(event) {
@@ -1353,52 +1129,6 @@ function registerFloatingWhatsAppBehavior() {
   onScroll();
 }
 
-// Conecta o fluxo de instalação, os controles do modal e os listeners de estado.
-function registerInstallExperience() {
-  installButtons.forEach((button) => {
-    button.addEventListener("click", handleInstallButtonClick);
-  });
-
-  installCloseTriggers.forEach((element) => {
-    element.addEventListener("click", closeInstallHelp);
-  });
-
-  if (installHelpCloseButton) {
-    installHelpCloseButton.addEventListener("click", closeInstallHelp);
-  }
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeInstallHelp();
-    }
-  });
-
-  if (displayModeQuery) {
-    const onDisplayModeChange = () => {
-      updateInstallButtons();
-    };
-
-    if (typeof displayModeQuery.addEventListener === "function") {
-      displayModeQuery.addEventListener("change", onDisplayModeChange);
-    } else if (typeof displayModeQuery.addListener === "function") {
-      displayModeQuery.addListener(onDisplayModeChange);
-    }
-  }
-
-  window.addEventListener("beforeinstallprompt", (event) => {
-    event.preventDefault();
-    installState.deferredPrompt = event;
-    updateInstallButtons();
-  });
-
-  window.addEventListener("appinstalled", () => {
-    installState.deferredPrompt = null;
-    installState.installed = true;
-    updateInstallButtons();
-  });
-
-  updateInstallButtons();
-}
 
 // Controles do usuário para idioma e tema.
 languageToggle.addEventListener("click", () => {
@@ -1414,7 +1144,6 @@ themeToggle.addEventListener("click", () => {
 // Inicialização da página.
 applyTheme();
 applyLanguage();
+unregisterLegacyServiceWorkers();
 registerBriefForm();
 registerFloatingWhatsAppBehavior();
-registerInstallExperience();
-registerServiceWorker();

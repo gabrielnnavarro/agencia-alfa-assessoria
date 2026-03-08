@@ -84,9 +84,6 @@ body {
   position: relative;
 }
 
-body.modal-open {
-  overflow: hidden;
-}
 
 body::before,
 body::after {
@@ -328,12 +325,6 @@ img {
   box-shadow: 0 12px 22px rgba(0, 0, 0, 0.12);
 }
 
-.control-button-install {
-  border-color: rgba(47, 230, 177, 0.3);
-  background:
-    linear-gradient(135deg, rgba(47, 230, 177, 0.14), rgba(124, 174, 255, 0.08)),
-    rgba(255, 255, 255, 0.02);
-}
 
 main {
   position: relative;
@@ -524,13 +515,6 @@ body[data-theme="light"] .button-primary {
     rgba(255, 255, 255, 0.02);
 }
 
-.button-install,
-.control-button-install {
-  border-color: rgba(47, 230, 177, 0.28);
-  background:
-    linear-gradient(135deg, rgba(47, 230, 177, 0.12), rgba(124, 174, 255, 0.08)),
-    rgba(255, 255, 255, 0.02);
-}
 
 .hero-points {
   list-style: none;
@@ -1165,91 +1149,6 @@ body[data-theme="light"] .form-field textarea:focus {
   height: 1.9rem;
 }
 
-.install-help-panel {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  display: grid;
-  place-items: center;
-  padding:
-    max(1.2rem, env(safe-area-inset-top))
-    max(1.2rem, env(safe-area-inset-right))
-    max(1.2rem, env(safe-area-inset-bottom))
-    max(1.2rem, env(safe-area-inset-left));
-}
-
-.install-help-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(2, 6, 14, 0.66);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-.install-help-dialog {
-  position: relative;
-  width: min(100%, 36rem);
-  padding: 1.7rem;
-  border-radius: var(--radius-xl);
-  background:
-    linear-gradient(145deg, rgba(47, 230, 177, 0.08), transparent 32%),
-    linear-gradient(235deg, rgba(255, 154, 82, 0.1), transparent 45%),
-    var(--panel-strong);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-lg);
-}
-
-.install-help-eyebrow {
-  margin-right: 2.2rem;
-}
-
-.install-help-dialog h2 {
-  margin: 0;
-  font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(1.9rem, 4vw, 2.5rem);
-  line-height: 0.98;
-  letter-spacing: -0.05em;
-}
-
-.install-help-dialog p,
-.install-help-steps {
-  color: var(--text-muted);
-}
-
-.install-help-dialog p {
-  margin: 0.95rem 0 0;
-  line-height: 1.68;
-}
-
-.install-help-steps {
-  margin: 1.2rem 0 0;
-  padding-left: 1.3rem;
-  display: grid;
-  gap: 0.75rem;
-  line-height: 1.55;
-}
-
-.install-help-action {
-  margin-top: 1.4rem;
-}
-
-.install-help-close {
-  position: absolute;
-  top: 0.95rem;
-  right: 0.95rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.02);
-  color: var(--text);
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
-.install-help-close:hover {
-  transform: translateY(-1px);
-}
 
 @supports not ((backdrop-filter: blur(18px)) or (-webkit-backdrop-filter: blur(18px))) {
   .site-header,
@@ -1266,8 +1165,7 @@ body[data-theme="light"] .form-field textarea:focus {
   .process-card,
   .about-card,
   .about-list article,
-  .cta-card,
-  .install-help-dialog {
+  .cta-card {
     background: var(--panel-strong);
   }
 }
@@ -1419,15 +1317,6 @@ body[data-theme="light"] .form-field textarea:focus {
     height: 3.7rem;
   }
 
-  .install-help-panel {
-    align-items: end;
-    padding: 0;
-  }
-
-  .install-help-dialog {
-    width: 100%;
-    border-radius: 1.35rem 1.35rem 0 0;
-    padding: 1.35rem 1rem calc(1.2rem + env(safe-area-inset-bottom));
   }
 }
 

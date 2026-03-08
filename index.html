@@ -1,38 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
-    <!-- Metadados base, codificação e integração com navegador/PWA -->
+    <!-- Metadados base, codificação e integração com navegador -->
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0c1220" id="theme-color-meta" />
     <meta name="color-scheme" content="dark light" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="ALFA" />
     <meta name="application-name" content="ALFA Engenharia de Software" />
     <meta
       name="description"
       content="ALFA Engenharia de Software oferece desenvolvimento sob medida para web, mobile, automação, dados, cloud e qualquer necessidade de software."
     />
     <title>ALFA Engenharia de Software | Desenvolvimento Sob Medida</title>
-    <!-- Fontes externas e arquivos do aplicativo -->
+
+    <!-- Fontes externas e arquivos do site -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body data-theme="dark">
     <!-- Camada visual de fundo com o gradiente principal -->
     <div class="background-layer"></div>
-    <!-- Cabeçalho fixo com marca, idioma, instalação e troca de tema -->
+
+    <!-- Cabeçalho com marca, idioma e troca de tema -->
     <header class="site-header">
       <div class="site-header-inner">
         <a class="brand" href="#top" aria-label="ALFA Engenharia de Software home">
@@ -53,14 +49,6 @@
             aria-label="Switch language"
           >
             PT
-          </button>
-          <button
-            class="control-button control-button-install"
-            id="install-button-header"
-            type="button"
-            data-i18n="installAppShort"
-          >
-            Instalar
           </button>
           <button
             class="control-button"
@@ -96,14 +84,6 @@
             >
               Pedir orçamento no WhatsApp
             </a>
-            <button
-              class="button button-install"
-              id="install-button-hero"
-              type="button"
-              data-i18n="installApp"
-            >
-              Instalar app
-            </button>
             <a class="button button-secondary" href="#services" data-i18n="heroSecondary">
               Ver serviços
             </a>
@@ -225,7 +205,9 @@
       <section class="section delivery-section">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="deliveryEyebrow">Modelos</p>
-          <h2 data-i18n="deliveryTitle">Modelos de atendimento para diferentes momentos do negócio</h2>
+          <h2 data-i18n="deliveryTitle">
+            Modelos de atendimento para diferentes momentos do negócio
+          </h2>
           <p data-i18n="deliveryText">
             Além de construir software, também estruturamos a forma de execução conforme a
             necessidade da sua empresa.
@@ -238,7 +220,9 @@
       <section class="section industries-section" id="industries">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="industriesEyebrow">Setores</p>
-          <h2 data-i18n="industriesTitle">Setores e contextos que atendemos com frequência</h2>
+          <h2 data-i18n="industriesTitle">
+            Setores e contextos que atendemos com frequência
+          </h2>
           <p data-i18n="industriesText">
             O mesmo núcleo técnico pode ser adaptado para operações comerciais, internas e
             digitais de diferentes segmentos.
@@ -251,7 +235,9 @@
       <section class="section stack-section" id="stack">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="stackEyebrow">Stack</p>
-          <h2 data-i18n="stackTitle">Tecnologias e frentes que conseguimos conectar em um projeto</h2>
+          <h2 data-i18n="stackTitle">
+            Tecnologias e frentes que conseguimos conectar em um projeto
+          </h2>
           <p data-i18n="stackText">
             Sites completos de software costumam mostrar stack, arquitetura e ecossistema técnico.
             Organizamos isso em grupos para facilitar a leitura.
@@ -411,41 +397,7 @@
       <span class="sr-only">WhatsApp</span>
     </a>
 
-    <!-- Modal compartilhado com ajuda de instalação para iOS, file:// e navegadores sem suporte -->
-    <div class="install-help-panel" id="install-help-panel" hidden aria-hidden="true">
-      <div class="install-help-backdrop" data-install-close></div>
-      <div
-        class="install-help-dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="install-help-title"
-        aria-describedby="install-help-text"
-      >
-        <button
-          class="install-help-close"
-          id="install-help-close"
-          type="button"
-          aria-label="Fechar"
-          data-install-close
-        >
-          ×
-        </button>
-        <p class="eyebrow install-help-eyebrow" data-i18n="installAppShort">Instalar</p>
-        <h2 id="install-help-title" data-i18n="installHelpTitle">Como instalar o app</h2>
-        <p id="install-help-text"></p>
-        <ol class="install-help-steps" id="install-help-steps"></ol>
-        <button
-          class="button button-secondary install-help-action"
-          id="install-help-close-button"
-          type="button"
-          data-i18n="installHelpClose"
-        >
-          Fechar
-        </button>
-      </div>
-    </div>
-
-    <!-- Camada principal de comportamento: idioma, tema, WhatsApp e instalação do PWA -->
+    <!-- Camada principal de comportamento: idioma, tema e WhatsApp -->
     <script src="script.js"></script>
   </body>
 </html>
