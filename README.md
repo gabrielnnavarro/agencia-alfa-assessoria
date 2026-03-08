@@ -1,55 +1,57 @@
-# Agencia ALFA
+# Agência ALFA
 
-Site institucional da Agencia ALFA para captacao de clientes e apresentacao de servicos de desenvolvimento sob medida.
+Site institucional da Agência ALFA criado para apresentação de serviços e captação de clientes.
 
-## Visao geral
+O projeto foi desenvolvido como uma landing page moderna, responsiva e instalável como PWA, permitindo acesso fácil em diferentes dispositivos.
 
-O projeto apresenta a empresa, seus servicos e canais de contato, com foco em conversao comercial e compatibilidade ampla entre navegadores e dispositivos.
+## 🌐 Projeto online
+https://agenciaalfaassessoria.netlify.app/
 
-## Recursos
+## 📌 Visão geral
+O site apresenta a empresa, seus serviços e canais de contato, com foco em conversão comercial e compatibilidade com diferentes navegadores e dispositivos.
 
-- Interface bilingue em portugues e ingles
-- Tema claro e escuro com persistencia local
-- Botoes de WhatsApp com mensagem geral e mensagens personalizadas por servico
-- Layout responsivo para desktop, tablet e mobile
-- PWA instalavel com manifesto, service worker e icones
-- Fluxo de instalacao com fallback para iOS, `file://` e navegadores sem suporte
+## 🚀 Recursos
+- Interface bilíngue (Português e Inglês)
+- Tema claro e escuro com persistência local
+- Botões de WhatsApp com mensagem geral e mensagens específicas por serviço
+- Layout responsivo (desktop, tablet e mobile)
+- Progressive Web App (PWA) instalável
+- Manifesto, service worker e ícones do aplicativo
+- Suporte a instalação com fallback para iOS e navegadores sem suporte
 
-## Estrutura
+## 🛠 Tecnologias utilizadas
+- HTML
+- CSS
+- JavaScript
+- Progressive Web App (PWA)
+- Netlify (deploy)
 
-- `index.html`: estrutura principal do site
-- `styles.css`: layout, tema, responsividade e componentes visuais
-- `script.js`: idioma, tema, servicos, links do WhatsApp e instalacao do app
-- `manifest.webmanifest`: configuracao do PWA
-- `service-worker.js`: cache offline e estrategia de carregamento
-- `serve-local.ps1`: servidor local simples para testes via HTTP
-- `icons/`: icones usados pelo PWA e atalhos do dispositivo
+## 📂 Estrutura do projeto
 
-## Execucao local
+index.html  
+Estrutura principal do site.
 
-Para testar localmente com recursos de PWA ativos:
+styles.css  
+Layout, responsividade, temas e componentes visuais.
+
+script.js  
+Controle de idioma, tema, serviços, links do WhatsApp e instalação do aplicativo.
+
+manifest.webmanifest  
+Configuração do Progressive Web App.
+
+service-worker.js  
+Cache offline e estratégia de carregamento.
+
+serve-local.ps1  
+Servidor local simples para testes via HTTP.
+
+icons/  
+Ícones utilizados pelo PWA e atalhos do dispositivo.
+
+## ▶ Execução local
+
+Para testar o projeto localmente com recursos de PWA ativos:
 
 ```powershell
 .\serve-local.ps1
-```
-
-Depois abra:
-
-```text
-http://127.0.0.1:4173
-```
-
-## Publicacao
-
-O projeto esta configurado para funcionar como site estatico na Netlify.
-
-Configuracao recomendada na Netlify:
-
-- Branch: `main`
-- Build command: vazio
-- Publish directory: `.`
-
-## Repositorio
-
-- GitHub: `https://github.com/gabrielnnavarro/agencia-alfa-assessoria`
-- Netlify: `https://agenciaalfaassessoria.netlify.app`
