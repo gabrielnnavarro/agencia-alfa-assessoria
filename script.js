@@ -85,11 +85,10 @@ const translations = {
     briefEyebrow: "Briefing rápido",
     briefTitle: "Monte um resumo do projeto e envie pelo WhatsApp",
     briefText:
-      "Em vez de mandar só uma mensagem genérica, você pode enviar um briefing estruturado com contexto, prazo e faixa de investimento.",
+      "Em vez de mandar só uma mensagem genérica, você pode enviar um briefing estruturado com contexto, prazo e objetivo do projeto.",
     briefNameLabel: "Seu nome",
     briefCompanyLabel: "Empresa",
     briefServiceLabel: "Tipo de projeto",
-    briefBudgetLabel: "Faixa de investimento",
     briefTimelineLabel: "Prazo desejado",
     briefSummaryLabel: "Resumo do que precisa",
     briefNote:
@@ -100,14 +99,12 @@ const translations = {
     briefSummaryPlaceholder:
       "Descreva o objetivo, funcionalidades, integrações e qualquer contexto importante.",
     briefServicePlaceholder: "Selecione o tipo de projeto",
-    briefBudgetPlaceholder: "Selecione a faixa de investimento",
     briefTimelinePlaceholder: "Selecione o prazo desejado",
     briefMessageIntro:
       "Olá, quero solicitar um orçamento com a ALFA Engenharia de Software. Segue um briefing rápido do projeto:",
     briefMessageName: "Nome",
     briefMessageCompany: "Empresa",
     briefMessageService: "Tipo de projeto",
-    briefMessageBudget: "Faixa de investimento",
     briefMessageTimeline: "Prazo desejado",
     briefMessageSummary: "Resumo",
     ctaEyebrow: "Próximo passo",
@@ -205,11 +202,10 @@ const translations = {
     briefEyebrow: "Quick brief",
     briefTitle: "Build a project summary and send it on WhatsApp",
     briefText:
-      "Instead of sending only a generic message, you can send a structured brief with context, timeline, and budget range.",
+      "Instead of sending only a generic message, you can send a structured brief with context, timeline, and project goals.",
     briefNameLabel: "Your name",
     briefCompanyLabel: "Company",
     briefServiceLabel: "Project type",
-    briefBudgetLabel: "Budget range",
     briefTimelineLabel: "Desired timeline",
     briefSummaryLabel: "Project summary",
     briefNote:
@@ -220,14 +216,12 @@ const translations = {
     briefSummaryPlaceholder:
       "Describe the goal, features, integrations, and any important context.",
     briefServicePlaceholder: "Select the project type",
-    briefBudgetPlaceholder: "Select the budget range",
     briefTimelinePlaceholder: "Select the desired timeline",
     briefMessageIntro:
       "Hello, I would like to request a quote from ALFA Engenharia de Software. Here is a quick project brief:",
     briefMessageName: "Name",
     briefMessageCompany: "Company",
     briefMessageService: "Project type",
-    briefMessageBudget: "Budget range",
     briefMessageTimeline: "Desired timeline",
     briefMessageSummary: "Summary",
     ctaEyebrow: "Next step",
@@ -631,8 +625,8 @@ const faqs = [
       en: "Do you work with any language and stack?"
     },
     answer: {
-      pt: "Sim. Trabalhamos com desenvolvimento sob medida e escolhemos a stack conforme objetivo, contexto técnico, orçamento e necessidade de evolução do projeto.",
-      en: "Yes. We work with custom development and choose the stack according to the project's goals, technical context, budget, and long-term evolution needs."
+      pt: "Sim. Trabalhamos com desenvolvimento sob medida e escolhemos a stack conforme objetivo, contexto técnico, escopo e necessidade de evolução do projeto.",
+      en: "Yes. We work with custom development and choose the stack according to the project's goals, technical context, scope, and long-term evolution needs."
     }
   },
   {
@@ -687,15 +681,6 @@ const faqs = [
   }
 ];
 
-// Faixas de investimento disponíveis no briefing rápido.
-const budgetOptions = [
-  { value: "up-to-5k", label: { pt: "Até R$ 5 mil", en: "Up to BRL 5k" } },
-  { value: "5k-15k", label: { pt: "De R$ 5 mil a R$ 15 mil", en: "BRL 5k to BRL 15k" } },
-  { value: "15k-30k", label: { pt: "De R$ 15 mil a R$ 30 mil", en: "BRL 15k to BRL 30k" } },
-  { value: "30k-60k", label: { pt: "De R$ 30 mil a R$ 60 mil", en: "BRL 30k to BRL 60k" } },
-  { value: "60k-plus", label: { pt: "Acima de R$ 60 mil", en: "Above BRL 60k" } }
-];
-
 // Prazos usados no formulário para qualificar o lead.
 const timelineOptions = [
   { value: "urgent", label: { pt: "Urgente (até 2 semanas)", en: "Urgent (up to 2 weeks)" } },
@@ -730,7 +715,6 @@ const briefForm = document.getElementById("brief-form");
 const briefNameInput = document.getElementById("brief-name");
 const briefCompanyInput = document.getElementById("brief-company");
 const briefServiceSelect = document.getElementById("brief-service");
-const briefBudgetSelect = document.getElementById("brief-budget");
 const briefTimelineSelect = document.getElementById("brief-timeline");
 const briefSummaryInput = document.getElementById("brief-summary");
 
@@ -762,6 +746,10 @@ function updateFloatingWhatsAppVisibility(shouldHide) {
 
 // Renderiza os cards de serviço sempre que o idioma ativo muda.
 function renderServices() {
+  if (!servicesGrid) {
+    return;
+  }
+
   const language = state.language;
 
   servicesGrid.innerHTML = services
@@ -914,14 +902,20 @@ function renderFaqs() {
 
 // Atualiza os selects e placeholders do briefing no idioma ativo sem perder o estado do formulário.
 function renderBriefForm() {
-  if (!briefForm || !briefServiceSelect || !briefBudgetSelect || !briefTimelineSelect) {
+  if (
+    !briefForm ||
+    !briefNameInput ||
+    !briefCompanyInput ||
+    !briefServiceSelect ||
+    !briefTimelineSelect ||
+    !briefSummaryInput
+  ) {
     return;
   }
 
   const language = state.language;
   const copy = translations[language];
   const previousService = briefServiceSelect.value;
-  const previousBudget = briefBudgetSelect.value;
   const previousTimeline = briefTimelineSelect.value;
   const serviceOptions = services.map((service, index) => ({
     value: `service-${index}`,
@@ -938,13 +932,6 @@ function renderBriefForm() {
     ...serviceOptions.map((option) => `<option value="${option.value}">${option.label}</option>`)
   ].join("");
 
-  briefBudgetSelect.innerHTML = [
-    `<option value="">${copy.briefBudgetPlaceholder}</option>`,
-    ...budgetOptions.map(
-      (option) => `<option value="${option.value}">${option.label[language]}</option>`
-    )
-  ].join("");
-
   briefTimelineSelect.innerHTML = [
     `<option value="">${copy.briefTimelinePlaceholder}</option>`,
     ...timelineOptions.map(
@@ -953,7 +940,6 @@ function renderBriefForm() {
   ].join("");
 
   briefServiceSelect.value = previousService;
-  briefBudgetSelect.value = previousBudget;
   briefTimelineSelect.value = previousTimeline;
 
   briefNameInput.placeholder = copy.briefNamePlaceholder;
@@ -979,24 +965,41 @@ function updateTranslatableContent() {
     }
   });
 
-  languageToggle.textContent = copy.languageLabel;
-  languageToggle.setAttribute("aria-label", copy.switchLanguageAria);
+  if (languageToggle) {
+    languageToggle.textContent = copy.languageLabel;
+    languageToggle.setAttribute("aria-label", copy.switchLanguageAria);
+  }
 
   const themeButtonLabel = theme === "dark" ? copy.themeButtonLight : copy.themeButtonDark;
-  themeToggle.setAttribute("aria-label", copy.themeToggleLabel);
-  themeToggle.querySelector("[data-i18n='themeButton']").textContent = themeButtonLabel;
+  if (themeToggle) {
+    themeToggle.setAttribute("aria-label", copy.themeToggleLabel);
+
+    const themeToggleLabel = themeToggle.querySelector("[data-i18n='themeButton']");
+
+    if (themeToggleLabel) {
+      themeToggleLabel.textContent = themeButtonLabel;
+    }
+  }
 
   const generalQuoteLink = buildWhatsAppUrl(getGeneralQuoteMessage(language));
-  heroQuoteButton.href = generalQuoteLink;
-  footerQuoteButton.href = generalQuoteLink;
-  floatingWhatsAppButton.href = generalQuoteLink;
-  floatingWhatsAppButton.setAttribute("aria-label", copy.floatingWhatsApp);
-  floatingWhatsAppButton.setAttribute("title", copy.floatingWhatsApp);
+  if (heroQuoteButton) {
+    heroQuoteButton.href = generalQuoteLink;
+  }
 
-  const floatingWhatsAppLabel = floatingWhatsAppButton.querySelector(".sr-only");
+  if (footerQuoteButton) {
+    footerQuoteButton.href = generalQuoteLink;
+  }
 
-  if (floatingWhatsAppLabel) {
-    floatingWhatsAppLabel.textContent = copy.floatingWhatsApp;
+  if (floatingWhatsAppButton) {
+    floatingWhatsAppButton.href = generalQuoteLink;
+    floatingWhatsAppButton.setAttribute("aria-label", copy.floatingWhatsApp);
+    floatingWhatsAppButton.setAttribute("title", copy.floatingWhatsApp);
+
+    const floatingWhatsAppLabel = floatingWhatsAppButton.querySelector(".sr-only");
+
+    if (floatingWhatsAppLabel) {
+      floatingWhatsAppLabel.textContent = copy.floatingWhatsApp;
+    }
   }
 
 
@@ -1060,14 +1063,21 @@ function unregisterLegacyServiceWorkers() {
 function handleBriefSubmit(event) {
   event.preventDefault();
 
-  if (!briefForm || !briefForm.reportValidity()) {
+  if (
+    !briefForm ||
+    !briefNameInput ||
+    !briefCompanyInput ||
+    !briefServiceSelect ||
+    !briefTimelineSelect ||
+    !briefSummaryInput ||
+    !briefForm.reportValidity()
+  ) {
     return;
   }
 
   const language = state.language;
   const copy = translations[language];
   const serviceLabel = briefServiceSelect.options[briefServiceSelect.selectedIndex].textContent;
-  const budgetLabel = briefBudgetSelect.options[briefBudgetSelect.selectedIndex].textContent;
   const timelineLabel =
     briefTimelineSelect.options[briefTimelineSelect.selectedIndex].textContent;
   const lines = [
@@ -1082,7 +1092,6 @@ function handleBriefSubmit(event) {
 
   lines.push(
     `${copy.briefMessageService}: ${serviceLabel}`,
-    `${copy.briefMessageBudget}: ${budgetLabel}`,
     `${copy.briefMessageTimeline}: ${timelineLabel}`,
     `${copy.briefMessageSummary}: ${briefSummaryInput.value.trim()}`
   );
@@ -1137,15 +1146,19 @@ function registerFloatingWhatsAppBehavior() {
 
 
 // Controles do usuário para idioma e tema.
-languageToggle.addEventListener("click", () => {
-  state.language = state.language === "pt" ? "en" : "pt";
-  applyLanguage();
-});
+if (languageToggle) {
+  languageToggle.addEventListener("click", () => {
+    state.language = state.language === "pt" ? "en" : "pt";
+    applyLanguage();
+  });
+}
 
-themeToggle.addEventListener("click", () => {
-  state.theme = state.theme === "dark" ? "light" : "dark";
-  applyTheme();
-});
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    state.theme = state.theme === "dark" ? "light" : "dark";
+    applyTheme();
+  });
+}
 
 // Inicialização da página.
 applyTheme();
