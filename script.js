@@ -85,11 +85,10 @@ const translations = {
     briefEyebrow: "Briefing rápido",
     briefTitle: "Monte um resumo do projeto e envie pelo WhatsApp",
     briefText:
-      "Em vez de mandar só uma mensagem genérica, você pode enviar um briefing estruturado com contexto, prazo e objetivo do projeto.",
+      "Em vez de mandar só uma mensagem genérica, você pode enviar um briefing estruturado com contexto e objetivo do projeto.",
     briefNameLabel: "Seu nome",
     briefCompanyLabel: "Empresa",
     briefServiceLabel: "Tipo de projeto",
-    briefTimelineLabel: "Prazo desejado",
     briefSummaryLabel: "Resumo do que precisa",
     briefNote:
       "Esse formulário abre o WhatsApp com a mensagem pronta no idioma atual do site.",
@@ -99,13 +98,11 @@ const translations = {
     briefSummaryPlaceholder:
       "Descreva o objetivo, funcionalidades, integrações e qualquer contexto importante.",
     briefServicePlaceholder: "Selecione o tipo de projeto",
-    briefTimelinePlaceholder: "Selecione o prazo desejado",
     briefMessageIntro:
       "Olá, quero solicitar um orçamento com a ALFA Engenharia de Software. Segue um briefing rápido do projeto:",
     briefMessageName: "Nome",
     briefMessageCompany: "Empresa",
     briefMessageService: "Tipo de projeto",
-    briefMessageTimeline: "Prazo desejado",
     briefMessageSummary: "Resumo",
     ctaEyebrow: "Próximo passo",
     ctaTitle: "Conte o que você precisa e montamos o orçamento",
@@ -202,11 +199,10 @@ const translations = {
     briefEyebrow: "Quick brief",
     briefTitle: "Build a project summary and send it on WhatsApp",
     briefText:
-      "Instead of sending only a generic message, you can send a structured brief with context, timeline, and project goals.",
+      "Instead of sending only a generic message, you can send a structured brief with context and project goals.",
     briefNameLabel: "Your name",
     briefCompanyLabel: "Company",
     briefServiceLabel: "Project type",
-    briefTimelineLabel: "Desired timeline",
     briefSummaryLabel: "Project summary",
     briefNote:
       "This form opens WhatsApp with the message already prepared in the current site language.",
@@ -216,13 +212,11 @@ const translations = {
     briefSummaryPlaceholder:
       "Describe the goal, features, integrations, and any important context.",
     briefServicePlaceholder: "Select the project type",
-    briefTimelinePlaceholder: "Select the desired timeline",
     briefMessageIntro:
       "Hello, I would like to request a quote from ALFA Engenharia de Software. Here is a quick project brief:",
     briefMessageName: "Name",
     briefMessageCompany: "Company",
     briefMessageService: "Project type",
-    briefMessageTimeline: "Desired timeline",
     briefMessageSummary: "Summary",
     ctaEyebrow: "Next step",
     ctaTitle: "Tell us what you need and we will prepare the quote",
@@ -681,15 +675,6 @@ const faqs = [
   }
 ];
 
-// Prazos usados no formulário para qualificar o lead.
-const timelineOptions = [
-  { value: "urgent", label: { pt: "Urgente (até 2 semanas)", en: "Urgent (up to 2 weeks)" } },
-  { value: "short", label: { pt: "Curto prazo (até 30 dias)", en: "Short term (up to 30 days)" } },
-  { value: "mid", label: { pt: "Médio prazo (1 a 3 meses)", en: "Mid term (1 to 3 months)" } },
-  { value: "long", label: { pt: "Longo prazo (3 a 6 meses)", en: "Long term (3 to 6 months)" } },
-  { value: "flexible", label: { pt: "Flexível / a definir", en: "Flexible / to be defined" } }
-];
-
 // Preferências persistidas do usuário restauradas no carregamento da página.
 const state = {
   language: localStorage.getItem("alfa-language") || "pt",
@@ -715,7 +700,6 @@ const briefForm = document.getElementById("brief-form");
 const briefNameInput = document.getElementById("brief-name");
 const briefCompanyInput = document.getElementById("brief-company");
 const briefServiceSelect = document.getElementById("brief-service");
-const briefTimelineSelect = document.getElementById("brief-timeline");
 const briefSummaryInput = document.getElementById("brief-summary");
 
 
@@ -907,7 +891,6 @@ function renderBriefForm() {
     !briefNameInput ||
     !briefCompanyInput ||
     !briefServiceSelect ||
-    !briefTimelineSelect ||
     !briefSummaryInput
   ) {
     return;
@@ -916,7 +899,6 @@ function renderBriefForm() {
   const language = state.language;
   const copy = translations[language];
   const previousService = briefServiceSelect.value;
-  const previousTimeline = briefTimelineSelect.value;
   const serviceOptions = services.map((service, index) => ({
     value: `service-${index}`,
     label: service.title[language]
@@ -932,15 +914,7 @@ function renderBriefForm() {
     ...serviceOptions.map((option) => `<option value="${option.value}">${option.label}</option>`)
   ].join("");
 
-  briefTimelineSelect.innerHTML = [
-    `<option value="">${copy.briefTimelinePlaceholder}</option>`,
-    ...timelineOptions.map(
-      (option) => `<option value="${option.value}">${option.label[language]}</option>`
-    )
-  ].join("");
-
   briefServiceSelect.value = previousService;
-  briefTimelineSelect.value = previousTimeline;
 
   briefNameInput.placeholder = copy.briefNamePlaceholder;
   briefCompanyInput.placeholder = copy.briefCompanyPlaceholder;
@@ -1068,7 +1042,6 @@ function handleBriefSubmit(event) {
     !briefNameInput ||
     !briefCompanyInput ||
     !briefServiceSelect ||
-    !briefTimelineSelect ||
     !briefSummaryInput ||
     !briefForm.reportValidity()
   ) {
@@ -1078,8 +1051,6 @@ function handleBriefSubmit(event) {
   const language = state.language;
   const copy = translations[language];
   const serviceLabel = briefServiceSelect.options[briefServiceSelect.selectedIndex].textContent;
-  const timelineLabel =
-    briefTimelineSelect.options[briefTimelineSelect.selectedIndex].textContent;
   const lines = [
     copy.briefMessageIntro,
     "",
@@ -1092,7 +1063,6 @@ function handleBriefSubmit(event) {
 
   lines.push(
     `${copy.briefMessageService}: ${serviceLabel}`,
-    `${copy.briefMessageTimeline}: ${timelineLabel}`,
     `${copy.briefMessageSummary}: ${briefSummaryInput.value.trim()}`
   );
 
