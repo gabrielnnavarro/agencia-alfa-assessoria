@@ -3,7 +3,7 @@
 Site institucional da ALFA TECH Studio, criado para apresentar serviços, gerar contato comercial e concentrar pedidos de orçamento pelo WhatsApp.
 
 ## Projeto online
-https://alfatechstudio.netlify.app/
+https://gabrielnnavarro.github.io/agencia-alfa-assessoria/
 
 ## Visão geral
 
