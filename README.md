@@ -3,7 +3,7 @@
 Site institucional da ALFA TECH, criado para apresentar serviços, gerar contato comercial e concentrar pedidos de orçamento pelo WhatsApp.
 
 ## Projeto online
-https://agenciaalfaassessoria.netlify.app/
+https://alfatechstudio.netlify.app/
 
 ## Visão geral
 
