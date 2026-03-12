@@ -3,7 +3,7 @@
 Site institucional da ALFA Tech Softwares, criado para apresentar serviços, gerar contato comercial e concentrar pedidos de orçamento pelo WhatsApp.
 
 ## Projeto online
-https://alfatechstudio.github.io/
+https://alfa-tech-softwares.github.io/
 
 ## Visão geral
 
