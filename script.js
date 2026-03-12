@@ -1,5 +1,5 @@
 ﻿// Número central do WhatsApp usado por todos os pontos de orçamento.
-const WHATSAPP_NUMBER = "5511978190028";
+const WHATSAPP_NUMBER = "5511976102377";
 
 
 // Todo o conteúdo traduzível da interface fica centralizado aqui para manter PT e EN alinhados.
